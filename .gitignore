@@ -1,0 +1,8 @@
+node_modules/
+# built by `npm run build` and attached to each GitHub release
+main.js
+*.map
+*.log
+# user's own plugin settings
+data.json
+.DS_Store

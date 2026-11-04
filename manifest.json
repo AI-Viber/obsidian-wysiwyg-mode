@@ -1,0 +1,10 @@
+{
+	"id": "wysiwyg-mode",
+	"name": "WYSIWYG Mode",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "Edit notes like a word processor, with a formatting toolbar and familiar shortcuts, while every note is still saved as Markdown.",
+	"author": "AI-Viber",
+	"authorUrl": "https://github.com/AI-Viber",
+	"isDesktopOnly": false
+}

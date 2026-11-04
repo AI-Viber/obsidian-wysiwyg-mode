@@ -1,0 +1,24 @@
+{
+	"name": "obsidian-wysiwyg-mode",
+	"version": "1.0.0",
+	"description": "Obsidian plugin: edit notes like a word processor while keeping them as Markdown.",
+	"main": "main.js",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "node esbuild.config.mjs production",
+		"lint": "eslint src",
+		"lint:obsidian": "eslint -c eslint.obsidian.config.mjs src",
+		"version": "node version-bump.mjs && git add manifest.json versions.json"
+	},
+	"keywords": ["obsidian", "obsidian-plugin", "wysiwyg", "editor"],
+	"license": "MIT",
+	"dependencies": {
+		"marked": "^18.0.10"
+	},
+	"devDependencies": {
+		"esbuild": "^0.28.2",
+		"eslint": "^9.0.0",
+		"eslint-plugin-obsidianmd": "latest",
+		"obsidian": "latest"
+	}
+}
