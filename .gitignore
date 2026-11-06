@@ -1,6 +1,7 @@
 node_modules/
-# built by `npm run build` and attached to each GitHub release
-main.js
+# built by `npm run build` and attached to each GitHub release.
+# The leading slash matters: without it this would also ignore src/main.js.
+/main.js
 *.map
 *.log
 # user's own plugin settings
