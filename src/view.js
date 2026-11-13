@@ -226,6 +226,8 @@ export class WysiwygView extends TextFileView {
 				if (r && r.rangeCount && this.wyEditor.contains(r.anchorNode)) {
 					this.wyLastRange = r.getRangeAt(0).cloneRange();
 					this.updateToolbar();
+					// Selecting text shows the selection's word count.
+					this.plugin.wordCounter?.updateSoon();
 				}
 				let i = this.wyEditedBlock;
 				if (i && !i.contains(r?.anchorNode ?? null)) {
@@ -325,6 +327,7 @@ export class WysiwygView extends TextFileView {
 		this.wyFmDetails.toggleClass("wy-hidden", frontmatter === null);
 		this.wyTitleInput.value = this.file?.basename ?? "";
 		this.render(body);
+		this.plugin.wordCounter?.updateSoon();
 	}
 	clear() {
 		if (
@@ -484,6 +487,7 @@ export class WysiwygView extends TextFileView {
 			this.wyEditor.replaceChildren(emptyParagraph());
 		this.markDirty();
 		this.updateToolbar();
+		this.plugin.wordCounter?.updateSoon();
 	}
 	updateLiveTags() {
 		let selection = this.selection(),

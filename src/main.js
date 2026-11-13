@@ -10,6 +10,7 @@ import { ModeController } from "./mode.js";
 import { MoveNoteModal, lastMoveFolder } from "./move-modal.js";
 import { DEFAULT_SETTINGS, WysiwygSettingTab } from "./settings.js";
 import { VIEW_TYPE, WysiwygView } from "./view.js";
+import { WordCounter } from "./word-count.js";
 
 export default class WysiwygPlugin extends Plugin {
 	settings = { ...DEFAULT_SETTINGS };
@@ -36,6 +37,12 @@ export default class WysiwygPlugin extends Plugin {
 		status.addClass("mod-clickable");
 		this.registerDomEvent(status, "click", () => void this.mode.toggle());
 		this.mode.attachIndicators(ribbon, status);
+
+		// Obsidian's word count only works in its own editor, so show ours in WYSIWYG.
+		this.wordCounter = new WordCounter(this.addStatusBarItem(), () =>
+			this.app.workspace.getActiveViewOfType(WysiwygView),
+		);
+		this.register(() => this.wordCounter.destroy());
 
 		this.addCommand({
 			id: "toggle",
@@ -135,6 +142,7 @@ export default class WysiwygPlugin extends Plugin {
 		let sync = () => {
 			this.mode.queueSync();
 			this.refreshFolderLabelsSoon();
+			this.wordCounter.updateSoon();
 		};
 		this.registerEvent(this.app.workspace.on("file-open", sync));
 		this.registerEvent(this.app.workspace.on("layout-change", sync));

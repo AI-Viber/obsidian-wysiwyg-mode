@@ -11,6 +11,7 @@ Edit your notes like in a word processor. Notes open as a single, formatted page
 - **Folder label**: a grey label at the end of the title line shows the note's folder. Select it (or run *Move this note to another folder*) to pick a new folder or create one. The folder you moved a note to last is listed first. Links are updated when a note moves.
 - **Works with your hotkeys**: your own hotkeys take priority, and editor commands from other plugins (for example timestamp or bullet commands) run inside WYSIWYG. *Run an editor action from another plugin* lists them.
 - **Obsidian syntax**: wikilinks, `![[embeds]]`, `==highlights==`, `#tags` (styled as you type), math, comments, footnotes and callouts are kept intact.
+- **Word count**: the status bar shows words and characters while you edit in WYSIWYG, counted the same way as Obsidian's own counter, so the numbers match in both modes. Select text to count just the selection.
 - **Safe by default**: scripts and unsafe links in notes or pasted content are removed.
 
 ## Keyboard shortcuts
@@ -69,6 +70,7 @@ The source is plain JavaScript in `src/`, bundled by esbuild. The Markdown parse
 | `mode.js` | Switches panes between WYSIWYG and Markdown |
 | `markdown-to-html.js`, `html-to-markdown.js` | The two directions of conversion |
 | `folding.js`, `tags.js` | Heading folding and live `#tag` styling |
+| `word-count.js` | Word and character counts in the status bar |
 | `folder-label.js`, `move-modal.js` | Folder label and the move-note picker |
 | `header-buttons.js` | Header buttons in Obsidian's own views |
 | `hotkeys.js`, `editor-adapter.js` | Use the user's hotkeys and other plugins' editor commands |
