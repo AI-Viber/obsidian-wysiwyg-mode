@@ -485,3 +485,8 @@
 	color: var(--text-faint);
 	font-size: var(--font-ui-smaller);
 }
+
+/* While a WYSIWYG note is in front, Obsidian's own word count can't update, so only ours shows. */
+body.wy-hide-core-word-count .status-bar .plugin-word-count {
+	display: none;
+}

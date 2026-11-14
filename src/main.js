@@ -39,9 +39,11 @@ export default class WysiwygPlugin extends Plugin {
 		this.mode.attachIndicators(ribbon, status);
 
 		// Obsidian's word count only works in its own editor, so show ours in WYSIWYG.
-		this.wordCounter = new WordCounter(this.addStatusBarItem(), () =>
-			this.app.workspace.getActiveViewOfType(WysiwygView),
-		);
+		// It follows the note in the main area, so clicking into a sidebar doesn't hide it.
+		this.wordCounter = new WordCounter(this.addStatusBarItem(), () => {
+			let view = this.app.workspace.getMostRecentLeaf()?.view;
+			return view instanceof WysiwygView ? view : null;
+		});
 		this.register(() => this.wordCounter.destroy());
 
 		this.addCommand({

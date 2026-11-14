@@ -8,7 +8,13 @@
  *   - words: runs of text between spaces, where "#" (heading marks) and "/" also
  *     separate words, and each Chinese, Japanese or Korean character is a word.
  * With text selected, the selection is counted instead.
+ *
+ * While a WYSIWYG note is in front, Obsidian's own counter would still show the last
+ * Markdown note's figures without updating, so it is hidden (a class on the body,
+ * see styles.css) and comes back as soon as a normal note is in front again.
  */
+
+const HIDE_CORE = "wy-hide-core-word-count";
 
 const CJK = "\\u3040-\\u30ff\\u3400-\\u4dbf\\u4e00-\\u9fff\\uf900-\\ufaff\\uac00-\\ud7af";
 const WORD = new RegExp(`[${CJK}]|[^\\s#/${CJK}]+`, "g");
@@ -45,8 +51,10 @@ export class WordCounter {
 		const view = this.activeView();
 		if (!view || !view.file) {
 			this.el.addClass("wy-hidden");
+			document.body.removeClass(HIDE_CORE);
 			return;
 		}
+		document.body.addClass(HIDE_CORE);
 		const selected = view.selectedText();
 		const text = selected || view.getViewData();
 		this.words.setText(plural(countWords(text), "word", "words"));
@@ -57,5 +65,6 @@ export class WordCounter {
 
 	destroy() {
 		window.clearTimeout(this.timer);
+		document.body.removeClass(HIDE_CORE);
 	}
 }
