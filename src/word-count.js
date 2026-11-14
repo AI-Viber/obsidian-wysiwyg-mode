@@ -29,10 +29,12 @@ export class WordCounter {
 	/**
 	 * @param statusEl status bar item to fill
 	 * @param activeView returns the WYSIWYG view in front, or null
+	 * @param fallbackAnchor status bar item to sit before if Obsidian's counter isn't there
 	 */
-	constructor(statusEl, activeView) {
+	constructor(statusEl, activeView, fallbackAnchor = null) {
 		this.el = statusEl;
 		this.activeView = activeView;
+		this.fallbackAnchor = fallbackAnchor;
 		this.el.addClass("wy-word-count");
 		this.words = this.el.createSpan({ cls: "status-bar-item-segment" });
 		this.chars = this.el.createSpan({ cls: "status-bar-item-segment" });
@@ -55,12 +57,28 @@ export class WordCounter {
 			return;
 		}
 		document.body.addClass(HIDE_CORE);
+		this.placeInStatusBar();
 		const selected = view.selectedText();
 		const text = selected || view.getViewData();
 		this.words.setText(plural(countWords(text), "word", "words"));
 		this.chars.setText(plural(text.length, "character", "characters"));
 		this.el.setAttribute("aria-label", selected ? "Selection" : "Whole note");
 		this.el.removeClass("wy-hidden");
+	}
+
+	/**
+	 * Sit where Obsidian's own (hidden) counter is, so the count doesn't move when
+	 * switching modes; if it isn't there, sit before the WYSIWYG on/off switch.
+	 */
+	placeInStatusBar() {
+		const bar = this.el.parentElement;
+		if (!bar) return;
+		const core = bar.querySelector(".plugin-word-count");
+		if (core && core !== this.el) {
+			if (core.nextElementSibling !== this.el) core.after(this.el);
+		} else if (this.fallbackAnchor && this.fallbackAnchor.parentElement === bar && this.fallbackAnchor.previousElementSibling !== this.el) {
+			this.fallbackAnchor.before(this.el);
+		}
 	}
 
 	destroy() {

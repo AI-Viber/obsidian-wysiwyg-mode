@@ -40,10 +40,14 @@ export default class WysiwygPlugin extends Plugin {
 
 		// Obsidian's word count only works in its own editor, so show ours in WYSIWYG.
 		// It follows the note in the main area, so clicking into a sidebar doesn't hide it.
-		this.wordCounter = new WordCounter(this.addStatusBarItem(), () => {
-			let view = this.app.workspace.getMostRecentLeaf()?.view;
-			return view instanceof WysiwygView ? view : null;
-		});
+		this.wordCounter = new WordCounter(
+			this.addStatusBarItem(),
+			() => {
+				let view = this.app.workspace.getMostRecentLeaf()?.view;
+				return view instanceof WysiwygView ? view : null;
+			},
+			status,
+		);
 		this.register(() => this.wordCounter.destroy());
 
 		this.addCommand({
